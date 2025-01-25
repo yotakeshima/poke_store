@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Pokemon {
+  id                     String      @id @unique
+  name                   String
+  supertype              String
+  subtypes               String[]
+  hp                     Int?
+  types                  String[]
+  evolvesFrom            String?
+  abilities              Ability[]
+  attacks                Attack[]
+  weaknesses             Weakness[]
+  retreatCost            String[]
+  convertedRetreatCost   Int
+  setId                  String      @map("set_id")
+  set                    Set         @relation(fields: [setId], references: [id])
+  number                 String
+  artist                 String?
+  rarity                 String
+  flavorText             String?
+  nationalPokedexNumbers Int[]
+  legalitiesId           String?     @map("legalities_id")
+  legalities             Legalities? @relation(fields: [legalitiesId], references: [id])
+  imagesId               String?     @map("images_id")
+  images                 Images?     @relation(fields: [imagesId], references: [id])
+  tcgplayerId            String?     @map("tcgplayer_id")
+  tcgplayer              TCGPlayer?  @relation(fields: [tcgplayerId], references: [id])
+  cardmarketId           String?     @map("cardmarket_id")
+  cardmarket             CardMarket? @relation(fields: [cardmarketId], references: [id])
+  products               Product[]   @relation("PokemonProducts")
+}
+
+model Ability {
+  id        String  @id @default(uuid())
+  name      String
+  text      String
+  type      String
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId String
+}
+
+model Attack {
+  id                  String   @id @default(uuid())
+  name                String
+  cost                String[]
+  convertedEnergyCost Int
+  damage              String?
+  text                String?
+  pokemon             Pokemon  @relation(fields: [pokemonId], references: [id])
+  pokemonId           String
+}
+
+model Weakness {
+  id        String  @id @default(uuid())
+  type      String
+  value     String
+  pokemon   Pokemon @relation(fields: [pokemonId], references: [id])
+  pokemonId String
+}
+
+model Set {
+  id           String      @id
+  name         String
+  series       String
+  printedTotal Int
+  total        Int
+  releaseDate  DateTime
+  updatedAt    DateTime
+  imagesId     String?     @map("images_id")
+  images       Images?     @relation(fields: [imagesId], references: [id])
+  legalitiesId String?     @map("legalities_id")
+  legalities   Legalities? @relation(fields: [legalitiesId], references: [id])
+  Pokemon      Pokemon[]
+}
+
+model Legalities {
+  id        String    @id @default(uuid())
+  unlimited String?
+  standard  String?
+  expanded  String?
+  Pokemon   Pokemon[]
+  Set       Set[]
+}
+
+model Images {
+  id      String    @id @default(uuid())
+  small   String
+  large   String
+  Pokemon Pokemon[]
+  Set     Set[]
+}
+
+model TCGPlayer {
+  id        String    @id @default(uuid())
+  url       String
+  updatedAt DateTime
+  prices    Json
+  Pokemon   Pokemon[]
+}
+
+model CardMarket {
+  id        String    @id @default(uuid())
+  url       String
+  updatedAt DateTime
+  prices    Json
+  Pokemon   Pokemon[]
+}
+
+model Product {
+  id        String   @id @default(uuid())
+  pokemonId String   @map("pokemon_id")
+  pokemon   Pokemon  @relation("PokemonProducts", fields: [pokemonId], references: [id])
+  price     Decimal  @default(0) @db.Decimal(12, 2)
+  stock     Int
+  condition String
+  sellerId  String   @map("seller_id")
+  seller    Seller   @relation(fields: [sellerId], references: [id])
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt
+}
+
+model Seller {
+  id       String    @id @default(uuid())
+  name     String
+  email    String    @unique
+  products Product[]
+}
