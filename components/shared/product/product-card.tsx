@@ -2,32 +2,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { PokemonTCG } from 'pokemon-tcg-sdk-typescript';
-import { useEffect, useState } from 'react';
 import ProductPrice from './product-price';
 
-const ProductCard = ({ product }: { product: any }) => {
-  const [cardImage, setCardImage] = useState<string>('/placeholder.png');
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const card = await PokemonTCG.findCardByID('xy7-54');
-        setCardImage(card.images.large); // Set it to a variable or use it here
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+const ProductCard = ({ product, pokemon }: { product: any; pokemon: any }) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 items-center">
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/product/${pokemon.name}`}>
           <Image
-            src={cardImage}
-            alt={product.name}
+            src={pokemon.images.large}
+            alt={pokemon.name}
             height={300}
             width={300}
             priority={true}
@@ -35,12 +19,12 @@ const ProductCard = ({ product }: { product: any }) => {
         </Link>
       </CardHeader>
       <CardContent className="p-4 grid gap-4">
-        <div className="text-xs">{product.brand}</div>
-        <Link href={`/product/${product.slug}`}>
-          <h2 className="text-md font-medium">{product.name}</h2>
+        <div className="text-xs">{pokemon.set.name}</div>
+        <Link href={`/product/${pokemon.name}`}>
+          <h2 className="text-md font-medium">{pokemon.name}</h2>
         </Link>
         <div className="flex-between gap-4">
-          <p>{product.rating} Stars</p>
+          <p>{product.condition} Condition</p>
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (

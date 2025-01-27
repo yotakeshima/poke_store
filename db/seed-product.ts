@@ -28,7 +28,6 @@ async function seedProducts() {
 
       console.log(`Created a product for ${pokemon.name} (${pokemon.id})`);
     }
-
     console.log('Seeding complete!');
   } catch (err) {
     console.error('Error during seeding', err);

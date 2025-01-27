@@ -1,6 +1,7 @@
+import { getPokemon } from '@/lib/actions/product.actions';
 import ProductCard from './product-card';
 
-const ProductList = ({
+const ProductList = async ({
   data,
   title,
   limit,
@@ -11,13 +12,21 @@ const ProductList = ({
 }) => {
   const limitedData = limit ? data.slice(0, limit) : data;
 
+  const pokemonData = await Promise.all(
+    limitedData.map((product: any) => getPokemon(product.id))
+  );
+
   return (
     <div className="my-10">
       <h2 className="mb-4 h2-bold">{title}</h2>
       {data.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {limitedData.map((product: any) => (
-            <ProductCard key={product.slug} product={product} />
+          {limitedData.map((product: any, index: number) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              pokemon={pokemonData[index]}
+            />
           ))}
         </div>
       ) : (
