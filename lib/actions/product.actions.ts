@@ -10,8 +10,11 @@ export async function getLatestProducts() {
     take: RECENT_LISTING_LIMIT,
     orderBy: { createdAt: 'desc' },
   });
-
-  return convertToObject(data);
+  const transformedData = data.map((product) => ({
+    ...product,
+    price: product.price.toString(),
+  }));
+  return convertToObject(transformedData);
 }
 
 export async function getPokemon(productId: string) {
@@ -27,5 +30,8 @@ export async function getPokemon(productId: string) {
     },
   });
 
+  if (!product || !product.pokemon) {
+    throw new Error('Product or Pokemon data is missing');
+  }
   return convertToObject(product?.pokemon);
 }

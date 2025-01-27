@@ -1,6 +1,6 @@
 import { getPokemon } from '@/lib/actions/product.actions';
 import ProductCard from './product-card';
-import { Product } from '@/types';
+import { Product } from '@/types/';
 
 const ProductList = async ({
   data,

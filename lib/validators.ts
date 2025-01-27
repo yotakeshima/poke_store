@@ -24,11 +24,13 @@ export const fullProductSchema = insertProductSchema.extend({
 });
 
 // Define the schema for Images
-export const imagesSchema = z.object({
-  id: z.string(),
-  small: z.string().url(), // Ensure it’s a valid URL
-  large: z.string().url(),
-});
+export const imagesSchema = z
+  .object({
+    id: z.string(),
+    small: z.string().url(), // Ensure it’s a valid URL
+    large: z.string().url(),
+  })
+  .nullable();
 
 // Define the schema for Set
 export const setSchema = z.object({
@@ -37,8 +39,8 @@ export const setSchema = z.object({
   series: z.string(),
   printedTotal: z.number().int(), // Integer value
   total: z.number().int(),
-  releaseDate: z.string().datetime(), // ISO Date string
-  updatedAt: z.string().datetime(),
+  releaseDate: z.date(),
+  updatedAt: z.date(),
   imagesId: z.string().nullable(), // Nullable field
   legalitiesId: z.string().nullable(),
 });
@@ -61,7 +63,7 @@ export const pokemonSchema = z.object({
   flavorText: z.string().nullable(),
   nationalPokedexNumbers: z.array(z.number()), // Array of numbers
   legalitiesId: z.string().nullable(),
-  imagesId: z.string(),
+  imagesId: z.string().nullable(),
   tcgplayerId: z.string().nullable(),
   cardmarketId: z.string().nullable(),
   images: imagesSchema, // Related Images schema
