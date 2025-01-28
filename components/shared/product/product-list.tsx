@@ -1,4 +1,4 @@
-import { getPokemon } from '@/lib/actions/product.actions';
+// import { getPokemon } from '@/lib/actions/product.actions';
 import ProductCard from './product-card';
 import { Product } from '@/types/';
 
@@ -12,20 +12,20 @@ const ProductList = async ({
   limit?: number;
 }) => {
   const limitedData = limit ? data.slice(0, limit) : data;
-  const pokemonData = await Promise.all(
-    limitedData.map((product: Product) => getPokemon(product.id))
-  );
+  // const pokemonData = await Promise.all(
+  //   limitedData.map((product: Product) => getPokemon(product.id))
+  // );
 
   return (
     <div className="my-10">
       <h2 className="mb-4 h2-bold">{title}</h2>
       {data.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {limitedData.map((product: Product, index: number) => (
+          {limitedData.map((product: Product) => (
             <ProductCard
               key={product.id}
               product={product}
-              pokemon={pokemonData[index]}
+              // pokemon={pokemonData[index]}
             />
           ))}
         </div>

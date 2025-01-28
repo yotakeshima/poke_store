@@ -3,22 +3,24 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import ProductPrice from './product-price';
-import { Product, Pokemon } from '@/types';
+import { Product } from '@/types';
 
 const ProductCard = ({
   product,
-  pokemon,
-}: {
+}: // pokemon,
+{
   product: Product;
-  pokemon: Pokemon;
+  // pokemon: Pokemon;
 }) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 items-center">
         <Link href={`/product/${product.pokemonId}`}>
           <Image
-            src={pokemon.images?.large || 'https://placehold.co/300x300'}
-            alt={pokemon.name}
+            src={
+              product.pokemon.images?.large || 'https://placehold.co/300x300'
+            }
+            alt={product.pokemon.name}
             height={300}
             width={300}
             priority={true}
@@ -26,9 +28,9 @@ const ProductCard = ({
         </Link>
       </CardHeader>
       <CardContent className="p-4 grid gap-4">
-        <div className="text-xs">{pokemon.set.name}</div>
-        <Link href={`/product/${pokemon.name}`}>
-          <h2 className="text-md font-medium">{pokemon.name}</h2>
+        <div className="text-xs">{product.pokemon.set.name}</div>
+        <Link href={`/product/${product.pokemon.name}`}>
+          <h2 className="text-md font-medium">{product.pokemon.name}</h2>
         </Link>
         <div className="flex-between gap-4">
           <p>{product.condition} Condition</p>
