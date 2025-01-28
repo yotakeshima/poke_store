@@ -4,24 +4,32 @@ import { convertToObject } from '../utils';
 import { RECENT_LISTING_LIMIT } from '../constants';
 import { Product } from '@/types';
 
+// Define reusable relations
+const productIncludeRelations = {
+  pokemon: {
+    include: {
+      images: true,
+      set: true,
+    },
+  },
+};
+
+// Helper function to fetch a product with relations
+async function findProductWithRelations(where: object) {
+  const product = await prisma.product.findFirst({
+    where,
+    include: productIncludeRelations,
+  });
+  return product ? convertToObject(product) : null;
+}
+
 // Get latest products
 export async function getLatestProducts() {
   const data = await prisma.product.findMany({
     take: RECENT_LISTING_LIMIT,
     orderBy: { createdAt: 'desc' },
-    include: {
-      pokemon: {
-        include: {
-          images: true,
-          set: true,
-        },
-      },
-    },
+    include: productIncludeRelations,
   });
-  //   const transformedData = data.map((product) => ({
-  //     ...product,
-  //     price: product.price.toString(),
-  //   }));
   return convertToObject(data);
 }
 
@@ -29,14 +37,7 @@ export async function getLatestProducts() {
 export async function getPokemon(productId: string) {
   const product = await prisma.product.findUnique({
     where: { id: productId },
-    include: {
-      pokemon: {
-        include: {
-          images: true,
-          set: true,
-        },
-      },
-    },
+    include: productIncludeRelations,
   });
 
   if (!product || !product.pokemon) {
@@ -55,18 +56,7 @@ export async function getProductById({
 }): Promise<Product | null> {
   if (!id && !pokemonId)
     throw new Error('you must provide either a id or pokemonId');
-  const product = await prisma.product.findFirst({
-    where: {
-      OR: [{ id: id ?? undefined }, { pokemonId: pokemonId ?? undefined }],
-    },
-    include: {
-      pokemon: {
-        include: {
-          images: true,
-          set: true,
-        },
-      },
-    },
+  return findProductWithRelations({
+    OR: [{ id: id ?? undefined }, { pokemonId: pokemonId ?? undefined }],
   });
-  return convertToObject(product);
 }
