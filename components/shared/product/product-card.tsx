@@ -12,11 +12,10 @@ const ProductCard = ({
   product: Product;
   pokemon: Pokemon;
 }) => {
-  console.log(pokemon);
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 items-center">
-        <Link href={`/product/${pokemon.name}`}>
+        <Link href={`/product/${product.pokemonId}`}>
           <Image
             src={pokemon.images?.large || 'https://placehold.co/300x300'}
             alt={pokemon.name}

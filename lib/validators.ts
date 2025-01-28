@@ -8,21 +8,6 @@ const currency = z
     'Price must have exactly two decimal places'
   );
 
-// Schema for inserting products
-export const insertProductSchema = z.object({
-  condition: z.string().min(3, 'Must be at least 3 characters'),
-  stock: z.coerce.number(),
-  price: currency,
-});
-
-export const fullProductSchema = insertProductSchema.extend({
-  id: z.string().uuid(),
-  pokemonId: z.string(),
-  sellerId: z.string().uuid(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-});
-
 // Define the schema for Images
 export const imagesSchema = z
   .object({
@@ -68,4 +53,23 @@ export const pokemonSchema = z.object({
   cardmarketId: z.string().nullable(),
   images: imagesSchema, // Related Images schema
   set: setSchema, // Related Set schema
+});
+
+// Schema for inserting products
+export const insertProductSchema = z.object({
+  condition: z.string().min(3, 'Must be at least 3 characters'),
+  stock: z.coerce.number(),
+  price: currency,
+});
+
+export const fullProductSchema = insertProductSchema.extend({
+  id: z.string().uuid(),
+  pokemonId: z.string(),
+  sellerId: z.string().uuid(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export const productWithPokemonSchema = fullProductSchema.extend({
+  pokemon: pokemonSchema,
 });
