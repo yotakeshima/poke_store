@@ -18,7 +18,7 @@ const ProductCard = ({
       <CardHeader className="p-0 items-center">
         <Link href={`/product/${pokemon.name}`}>
           <Image
-            src={pokemon.images?.large || 'placeholder.png'}
+            src={pokemon.images?.large || 'https://placehold.co/300x300'}
             alt={pokemon.name}
             height={300}
             width={300}
