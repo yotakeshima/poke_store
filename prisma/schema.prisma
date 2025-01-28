@@ -30,6 +30,8 @@ model Pokemon {
   setId                  String      @map("set_id")
   set                    Set         @relation(fields: [setId], references: [id])
   number                 String
+  rules                  String[]
+  regulationMark         String?
   artist                 String?
   rarity                 String
   flavorText             String?

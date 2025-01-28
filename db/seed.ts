@@ -7,8 +7,34 @@ function parseDate(dateString: string): Date {
   return new Date(`2${dateString}`);
 }
 
+async function clearDatabase() {
+  try {
+    console.log('Deleting all entries');
+    // Delete dependent tables first
+    await prisma.ability.deleteMany({});
+    await prisma.attack.deleteMany({});
+    await prisma.weakness.deleteMany({});
+    await prisma.product.deleteMany({});
+    await prisma.legalities.deleteMany({});
+    await prisma.images.deleteMany({});
+
+    // Delete `Pokemon` before deleting `Set` due to foreign key constraints
+    await prisma.pokemon.deleteMany({});
+    await prisma.set.deleteMany({});
+    await prisma.tCGPlayer.deleteMany({});
+    await prisma.cardMarket.deleteMany({});
+    await prisma.seller.deleteMany({});
+    console.log('All entries deleted successfully!');
+  } catch (error) {
+    console.error('Error clearing database:', error);
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
 async function seed() {
   try {
+    clearDatabase();
     console.log('Starting data seeding...');
 
     // Create a default seller
@@ -46,10 +72,13 @@ async function seed() {
       hp: card.hp ? parseInt(card.hp, 10) : null,
       types: card.types || [],
       evolvesFrom: card.evolvesFrom || null,
+      rules: card.rules || [],
       retreatCost: card.retreatCost || [],
       convertedRetreatCost: card.convertedRetreatCost || 0,
       number: card.number,
       rarity: card.rarity,
+      flavorText: card.flavorText || null,
+      regulationMark: card.regulationMark || null,
       set: {
         connectOrCreate: {
           where: { id: card.set.id },
@@ -77,6 +106,34 @@ async function seed() {
               standard: card.legalities.standard || null,
               expanded: card.legalities.expanded || null,
             },
+          }
+        : undefined,
+      abilities: card.abilities
+        ? {
+            create: card.abilities.map((ability) => ({
+              name: ability.name,
+              text: ability.text,
+              type: ability.type,
+            })),
+          }
+        : undefined,
+      attacks: card.attacks
+        ? {
+            create: card.attacks.map((attack) => ({
+              name: attack.name,
+              cost: attack.cost,
+              convertedEnergyCost: attack.convertedEnergyCost,
+              damage: attack.damage,
+              text: attack.text,
+            })),
+          }
+        : undefined,
+      weaknesses: card.weaknesses
+        ? {
+            create: card.weaknesses.map((weakness) => ({
+              type: weakness.type,
+              value: weakness.value,
+            })),
           }
         : undefined,
     }));
@@ -109,4 +166,5 @@ async function seed() {
   }
 }
 
+// clearDatabase();
 seed();

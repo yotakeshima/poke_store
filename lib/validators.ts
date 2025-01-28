@@ -29,30 +29,59 @@ export const setSchema = z.object({
   imagesId: z.string().nullable(), // Nullable field
   legalitiesId: z.string().nullable(),
 });
+export const abilitySchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  text: z.string(),
+  type: z.string(),
+  pokemonId: z.string(),
+});
 
-// Define the schema for Pokémon
+export const attackSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  cost: z.array(z.string()),
+  convertedEnergyCost: z.number(),
+  damage: z.string().nullable(),
+  text: z.string().nullable(),
+  pokemonId: z.string(),
+});
+
+export const weaknessSchema = z.object({
+  id: z.string(),
+  type: z.string(),
+  value: z.string(),
+  pokemonId: z.string(),
+});
+
+// Updated Pokemon Schema
 export const pokemonSchema = z.object({
   id: z.string(),
   name: z.string(),
   supertype: z.string(),
   subtypes: z.array(z.string()),
-  hp: z.number().nullable(), // Nullable integer for HP
+  hp: z.number().nullable(),
   types: z.array(z.string()),
-  evolvesFrom: z.string().nullable(), // Nullable string
-  retreatCost: z.array(z.string()), // Array of strings
+  evolvesFrom: z.string().nullable(),
+  retreatCost: z.array(z.string()),
   convertedRetreatCost: z.number(),
   setId: z.string(),
   number: z.string(),
-  artist: z.string().nullable(), // Nullable string
+  artist: z.string().nullable(),
   rarity: z.string().nullable(),
   flavorText: z.string().nullable(),
-  nationalPokedexNumbers: z.array(z.number()), // Array of numbers
+  nationalPokedexNumbers: z.array(z.number()),
   legalitiesId: z.string().nullable(),
   imagesId: z.string().nullable(),
   tcgplayerId: z.string().nullable(),
   cardmarketId: z.string().nullable(),
-  images: imagesSchema, // Related Images schema
-  set: setSchema, // Related Set schema
+  rules: z.array(z.string()),
+  regulationMark: z.string().nullable(),
+  images: imagesSchema,
+  set: setSchema,
+  abilities: z.array(abilitySchema),
+  attacks: z.array(attackSchema),
+  weaknesses: z.array(weaknessSchema),
 });
 
 // Schema for inserting products

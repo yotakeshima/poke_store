@@ -10,6 +10,9 @@ const productIncludeRelations = {
     include: {
       images: true,
       set: true,
+      abilities: true,
+      attacks: true,
+      weaknesses: true,
     },
   },
 };
