@@ -37,18 +37,6 @@ async function seed() {
     clearDatabase();
     console.log('Starting data seeding...');
 
-    // Create a default seller
-    const defaultSeller = await prisma.seller.upsert({
-      where: { email: 'admin@example.com' },
-      update: {},
-      create: {
-        name: 'Admin Seller',
-        email: 'admin@example.com',
-      },
-    });
-
-    console.log('Default seller created/updated:', defaultSeller);
-
     // Step 2: Fetch all cards from a specific set
     console.log('Fetching cards from the set...');
     const cardSet = await PokemonTCG.findCardsByQueries({ q: 'set.id:sv8pt5' }); // Adjust set ID as needed

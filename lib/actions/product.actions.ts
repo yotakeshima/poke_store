@@ -59,7 +59,8 @@ export async function getProductById({
 }): Promise<Product | null> {
   if (!id && !pokemonId)
     throw new Error('you must provide either a id or pokemonId');
-  return findProductWithRelations({
+  const product = await findProductWithRelations({
     OR: [{ id: id ?? undefined }, { pokemonId: pokemonId ?? undefined }],
   });
+  return convertToObject(product);
 }

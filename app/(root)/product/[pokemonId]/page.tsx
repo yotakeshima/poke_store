@@ -3,16 +3,95 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { getProductById } from '@/lib/actions/product.actions';
 import { notFound } from 'next/navigation';
-import { ProductPrice } from '@/components/shared/product/product-price';
+import ProductPrice from '@/components/shared/product/product-price';
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ pokemonId: string }>;
 }) => {
   const { pokemonId } = await props.params;
-
   const product = await getProductById({ pokemonId: pokemonId });
-  if (!product) notFound();
 
-  return <>{product?.pokemon.name}</>;
+  if (!product) notFound();
+  const {
+    pokemon,
+    pokemon: { set },
+  } = product;
+  return (
+    <>
+      <section>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {/* Images Column */}
+          <div className="sm:col-span-1 md:col-span-1 ">
+            {/* Images Component */}
+          </div>
+          {/* Details Column */}
+          <div className="sm:col-span-1 md:col-span-1 p-5">
+            <div className="flex flex-col gap-6">
+              <p>
+                {pokemon.number}/{set.total} {set.name}
+              </p>
+              <div>
+                <h1 className="h3-bold">{pokemon.name}</h1>
+                <p>
+                  {pokemon.supertype}
+                  {' | '}
+                  {pokemon.subtypes.map((subtype) => `${subtype} | `)}
+                </p>
+              </div>
+              <p>
+                {pokemon.rarity}
+                {'\n'}
+              </p>
+
+              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                <ProductPrice
+                  value={Number(product.price)}
+                  className="w-[115px] rounded-full bg-green-100 text-green-700 px-5 py-2"
+                />
+              </div>
+            </div>
+            <div className="mt-10">
+              <p className="font-semibold">Details</p>
+
+              <div>
+                {pokemon.attacks.map((attack) => (
+                  <div key={attack.name}>
+                    <div className="h3 h3-bold">{attack.name}</div>{' '}
+                    {attack.text}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          {/* Action Column */}
+          <div className="sm:col-span-full md:col-span-1 flex-top">
+            <Card className="max-w-[400px] w-full">
+              <CardContent className="p-4">
+                <div className="mb-2 flex justify-between">
+                  <div>Price</div>
+                  <div>
+                    <ProductPrice value={Number(product.price)} />
+                  </div>
+                </div>
+                <div className="mb-2 flex justify-between">
+                  <div>Status</div>
+                  {product.stock > 0 ? (
+                    <Badge variant={'outline'}>In Stock</Badge>
+                  ) : (
+                    <Badge variant={'destructive'}>Out of Stock</Badge>
+                  )}
+                </div>
+                {product.stock > 0 && (
+                  <div className="flex-center">
+                    <Button className="w-full">Add to Cart</Button>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 };
 export default ProductDetailsPage;

@@ -4,9 +4,25 @@ const prisma = new PrismaClient();
 
 async function seedProducts() {
   try {
+    // Create a default seller
+    console.log('Creating default Seller...');
+    const defaultSeller = await prisma.seller.upsert({
+      where: { email: 'admin@example.com' },
+      update: {},
+      create: {
+        name: 'Admin Seller',
+        email: 'admin@example.com',
+      },
+    });
+
+    console.log('Default seller created/updated:', defaultSeller);
+
     console.log('Seeding products...');
     const seller = await prisma.seller.findFirst();
     const pokemons = await prisma.pokemon.findMany({
+      where: {
+        OR: [{ id: 'sv8pt5-161' }, { id: { not: 'sv8pt5-161' } }],
+      },
       take: 4,
     });
 
