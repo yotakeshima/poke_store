@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import Image from 'next/image';
 import { getProductById } from '@/lib/actions/product.actions';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/components/shared/product/product-price';
@@ -18,76 +19,60 @@ const ProductDetailsPage = async (props: {
   } = product;
   return (
     <>
-      <section>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {/* Images Column */}
-          <div className="sm:col-span-1 md:col-span-1 ">
-            {/* Images Component */}
-          </div>
-          {/* Details Column */}
-          <div className="sm:col-span-1 md:col-span-1 p-5">
-            <div className="flex flex-col gap-6">
-              <p>
-                {pokemon.number}/{set.total} {set.name}
-              </p>
-              <div>
-                <h1 className="h3-bold">{pokemon.name}</h1>
-                <p>
-                  {pokemon.supertype}
-                  {' | '}
-                  {pokemon.subtypes.map((subtype) => `${subtype} | `)}
-                </p>
-              </div>
-              <p>
-                {pokemon.rarity}
-                {'\n'}
-              </p>
-
-              <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                <ProductPrice
-                  value={Number(product.price)}
-                  className="w-[115px] rounded-full bg-green-100 text-green-700 px-5 py-2"
-                />
-              </div>
-            </div>
-            <div className="mt-10">
-              <p className="font-semibold">Details</p>
-
-              <div>
-                {pokemon.attacks.map((attack) => (
-                  <div key={attack.name}>
-                    <div className="h3 h3-bold">{attack.name}</div>{' '}
-                    {attack.text}
-                  </div>
-                ))}
-              </div>
+      <section className="product-screen">
+        {/* Centered Container */}
+        <div className="product-container">
+          {/* Left Column: Product Image */}
+          <div className="flex-top">
+            <div className="w-full max-w-[400px] mt-7">
+              <Image
+                src={pokemon.images?.large || 'https://placehold.co/400x400'}
+                alt={pokemon.name}
+                width={800}
+                height={800}
+                className="product-image"
+              />
             </div>
           </div>
-          {/* Action Column */}
-          <div className="sm:col-span-full md:col-span-1 flex-top">
-            <Card className="max-w-[400px] w-full">
-              <CardContent className="p-4">
-                <div className="mb-2 flex justify-between">
-                  <div>Price</div>
-                  <div>
-                    <ProductPrice value={Number(product.price)} />
+          <div className="grid md-lg:grid-cols-1 lg:grid-cols-2">
+            {/* Product Details */}
+            <div className="order-2  lg:order-1 flex-center lg:items-start flex-col gap-1 p-2">
+              <h1 className="product-name">{pokemon.name} </h1>
+              <p className="text-gray-500">
+                {pokemon.supertype} | {pokemon.subtypes.join(', ')}
+              </p>
+              <p className="text-sm text-gray-600">
+                {pokemon.number}/{set.total} - {set.name}
+              </p>
+              <p className="text-gray-700">{pokemon.rarity}</p>
+            </div>
+
+            {/* Checkout Cart */}
+            <div className="order-1 lg:order-2 sm:col-span-full md:col-span-1 flex-top mt-2">
+              <Card className="max-w-[350px] w-full">
+                <CardContent className="p-4">
+                  <div className="mb-2 flex justify-between">
+                    <div>Price</div>
+                    <div>
+                      <ProductPrice value={Number(product.price)} />
+                    </div>
                   </div>
-                </div>
-                <div className="mb-2 flex justify-between">
-                  <div>Status</div>
-                  {product.stock > 0 ? (
-                    <Badge variant={'outline'}>In Stock</Badge>
-                  ) : (
-                    <Badge variant={'destructive'}>Out of Stock</Badge>
+                  <div className="mb-2 flex justify-between">
+                    <div>Status</div>
+                    {product.stock > 0 ? (
+                      <Badge variant={'outline'}>In Stock</Badge>
+                    ) : (
+                      <Badge variant={'destructive'}>Out of Stock</Badge>
+                    )}
+                  </div>
+                  {product.stock > 0 && (
+                    <div className="flex-center">
+                      <Button className="w-full">Add to Cart</Button>
+                    </div>
                   )}
-                </div>
-                {product.stock > 0 && (
-                  <div className="flex-center">
-                    <Button className="w-full">Add to Cart</Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
       </section>

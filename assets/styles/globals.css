@@ -7,9 +7,26 @@
     @apply max-w-7xl lg:mx-auto p-5 md:px-10 w-full;
   }
 
+  .product-screen {
+    @apply flex justify-center min-h-screen bg-gray-100 overflow-hidden;
+  }
+
+  .product-container {
+    @apply w-full max-w-[90rem] bg-white shadow-lg mt-24 rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 items-start sm:gap-6;
+  }
+
+  .product-image {
+    @apply w-full h-auto rounded-lg shadow-md;
+  }
+
+  .product-name {
+    @apply xs:text-3xl md:text-4xl lg:text-5xl font-bold;
+  }
+
   .flex-start {
     @apply flex justify-start items-center;
   }
+
   .flex-center {
     @apply flex justify-center items-center;
   }
