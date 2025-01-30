@@ -23,7 +23,17 @@ const ProductDetailsPage = async (props: {
         {/* Centered Container */}
         <div className="product-container">
           {/* Left Column: Product Image */}
-          <div className="flex-top">
+          <div className="flex-center flex-col">
+            <div className="col-span-4 p4 block md:hidden">
+              <h1 className="product-name">{pokemon.name} </h1>
+              <p className="text-gray-500">
+                {pokemon.supertype} | {pokemon.subtypes.join(', ')}
+              </p>
+              <p className="text-sm text-gray-600">
+                {pokemon.number}/{set.total} - {set.name}
+              </p>
+            </div>
+
             <div className="w-full max-w-[400px] mt-7">
               <Image
                 src={pokemon.images?.large || 'https://placehold.co/400x400'}
@@ -34,9 +44,11 @@ const ProductDetailsPage = async (props: {
               />
             </div>
           </div>
+
+          {/* Details Container */}
           <div className="grid md-lg:grid-cols-1 lg:grid-cols-2">
-            {/* Product Details */}
-            <div className="order-2  lg:order-1 flex-center lg:items-start flex-col gap-1 p-2">
+            {/* Pokemon Name Title */}
+            <div className="col-span-2 p-4 hidden md:block">
               <h1 className="product-name">{pokemon.name} </h1>
               <p className="text-gray-500">
                 {pokemon.supertype} | {pokemon.subtypes.join(', ')}
@@ -44,6 +56,9 @@ const ProductDetailsPage = async (props: {
               <p className="text-sm text-gray-600">
                 {pokemon.number}/{set.total} - {set.name}
               </p>
+            </div>
+            {/* Product Details */}
+            <div className="order-2  lg:order-1 flex-center lg:items-start flex-col gap-1 p-2">
               <p className="text-gray-700">{pokemon.rarity}</p>
             </div>
 
