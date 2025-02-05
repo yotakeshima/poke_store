@@ -50,6 +50,10 @@
   .h3-bold {
     @apply font-bold text-xl lg:text-2xl;
   }
+
+  .details-heading {
+    @apply inline-block text-xl font-bold px-4 py-1 border-4 border-gray-700 bg-gradient-to-b from-gray-900 to-gray-700 text-yellow-300 shadow-inner shadow-gray-900;
+  }
 }
 
 @layer base {

@@ -5,6 +5,10 @@ import Image from 'next/image';
 import { getProductById } from '@/lib/actions/product.actions';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/components/shared/product/product-price';
+import ProductDetailsHP from '@/components/shared/product/details/product-details-hp';
+import ProductDetailsAttacks from '@/components/shared/product/details/product-details-attacks';
+import ProductDetailsRules from '@/components/shared/product/details/product-details-rules';
+import ProductDetailsAbilities from '@/components/shared/product/details/product-details-abilites';
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ pokemonId: string }>;
@@ -49,7 +53,7 @@ const ProductDetailsPage = async (props: {
           <div className="grid md-lg:grid-cols-1 lg:grid-cols-2">
             {/* Pokemon Name Title */}
             <div className="col-span-2 p-4 hidden md:block">
-              <h1 className="product-name">{pokemon.name} </h1>
+              <h1 className="product-name mb-1">{pokemon.name} </h1>
               <p className="text-gray-500">
                 {pokemon.supertype} | {pokemon.subtypes.join(', ')}
               </p>
@@ -60,6 +64,10 @@ const ProductDetailsPage = async (props: {
             {/* Product Details */}
             <div className="order-2  lg:order-1 flex-center lg:items-start flex-col gap-1 p-2">
               <p className="text-gray-700">{pokemon.rarity}</p>
+              <ProductDetailsHP value={pokemon.hp} />
+              <ProductDetailsAttacks attacks={pokemon.attacks} />
+              <ProductDetailsAbilities abilities={pokemon.abilities} />
+              <ProductDetailsRules rules={pokemon.rules} />
             </div>
 
             {/* Checkout Cart */}
