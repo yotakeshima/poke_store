@@ -10,7 +10,7 @@ const ProductDetailsHP = ({
   if (!value) return <p></p>;
   return (
     <p className={cn('text-2xl', className)}>
-      <span className="text-sm font-bold">HP </span>
+      <span className='text-sm font-bold'>HP </span>
       {value}
     </p>
   );
