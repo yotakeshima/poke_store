@@ -1,6 +1,11 @@
 import { PrismaClient } from '@prisma/client';
 import { PokemonTCG } from 'pokemon-tcg-sdk-typescript';
 
+// Extend the PokemonTCG.Card interface for type issue.
+type ExtendPokemonTCGCard = {
+  regulationMark?: string;
+} & PokemonTCG.Card;
+
 const prisma = new PrismaClient();
 
 function parseDate(dateString: string): Date {
@@ -52,7 +57,7 @@ async function seed() {
     //   parseDate(cardSet[1].set.updatedAt)
     // );
     // Step 3: Map fetched data to Prisma-compatible format
-    const pokemonData = cardSet.map((card) => ({
+    const pokemonData = cardSet.map((card: ExtendPokemonTCGCard) => ({
       id: card.id,
       name: card.name,
       supertype: card.supertype,
