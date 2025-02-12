@@ -102,3 +102,10 @@ export const fullProductSchema = insertProductSchema.extend({
 export const productWithPokemonSchema = fullProductSchema.extend({
   pokemon: pokemonSchema,
 });
+
+//Schema for signing users in
+
+export const signInFormSchema = z.object({
+  email: z.string().email('Invalid email addresss'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
