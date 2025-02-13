@@ -1,10 +1,11 @@
-import NextAuth from 'next-auth';
+import NextAuth, { Session, User } from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
 import Google from 'next-auth/providers/google';
 import type { NextAuthConfig } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 
 export const config = {
   pages: {
@@ -55,7 +56,18 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({ session, user, trigger, token }: any) {
+    async session({
+      session,
+      user,
+      trigger,
+      token,
+    }: {
+      session: Session;
+      user: User;
+      trigger?: 'update' | 'signIn';
+      token: JWT;
+    }) {
+      if (!session.user) return session;
       // Set the user ID from the token
       session.user.id = token.sub;
 
