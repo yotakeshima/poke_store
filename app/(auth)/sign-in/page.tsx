@@ -10,6 +10,7 @@ import { APP_NAME } from '@/lib/constants';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FcGoogle } from 'react-icons/fc';
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -52,7 +53,7 @@ const SignInPage = () => {
             Sign in using google
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 flex-center">
           {
             <form
               action={async () => {
@@ -60,7 +61,13 @@ const SignInPage = () => {
                 await signIn('google');
               }}
             >
-              <button type="submit">Sign in with Google</button>
+              <button
+                className="flex items-center justify-center w-full px-6 py-3 text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 transition rounded-lg shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-75"
+                type="submit"
+              >
+                <FcGoogle className="mr-3 text-2xl" />
+                <span className="font-medium">Sign in with Google</span>
+              </button>
             </form>
           }
         </CardContent>
