@@ -4,3 +4,8 @@ export const APP_DESCRIPTION =
 export const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3000';
 export const RECENT_LISTING_LIMIT =
   Number(process.env.RECENT_LISTING_LIMIT) || 4;
+
+export const signInDefaultValues = {
+  email: '',
+  password: '',
+};

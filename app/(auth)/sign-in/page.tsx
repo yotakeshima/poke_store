@@ -11,6 +11,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FcGoogle } from 'react-icons/fc';
+import CredentialsSignInForm from './credentials-sigin-form';
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -19,7 +20,7 @@ export const metadata: Metadata = {
 const SignInPage = () => {
   return (
     <div className="w-full max-w-md mx-auto">
-      <Card>
+      <Card className="mb-5">
         <CardHeader className="space-y-4">
           <Link href="/" className="flex-center">
             <Image
@@ -35,23 +36,19 @@ const SignInPage = () => {
             Sign in to your account
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">{/* FORM HERE */}</CardContent>
+        <CardContent className="space-y-4">
+          <CredentialsSignInForm />
+        </CardContent>
       </Card>
       <Card>
-        <CardHeader className="space-y-4">
-          <Link href="/" className="flex-center">
-            <Image
-              src="/images/google_logo.png"
-              width={100}
-              height={100}
-              alt={`${APP_NAME} logo`}
-              priority={true}
-            />
-          </Link>
-          <CardTitle className="text-center">Sign In</CardTitle>
-          <CardDescription className="text-center">
-            Sign in using google
-          </CardDescription>
+        <CardHeader className="space-y-4 flex-center">
+          <Image
+            src="/images/google_logo.png"
+            width={100}
+            height={100}
+            alt={`${APP_NAME} logo`}
+            priority={true}
+          />
         </CardHeader>
         <CardContent className="space-y-4 flex-center">
           {
