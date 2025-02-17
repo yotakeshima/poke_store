@@ -5,6 +5,7 @@ import { signIn, signOut } from '@/auth';
 import { isRedirectError } from 'next/dist/client/components/redirect-error';
 import { hashSync } from 'bcrypt-ts-edge';
 import { prisma } from '@/db/prisma';
+import { formatErrors } from '../utils';
 
 // Sign in the user with credentials.
 export async function signInWithCredentials(
@@ -17,13 +18,19 @@ export async function signInWithCredentials(
       password: formData.get('password'),
     });
     await signIn('credentials', user);
-    return { success: true, message: 'Signed in successfully' };
+    return { success: true, message: 'Signed in successfully', values: {} };
   } catch (err) {
     if (isRedirectError(err)) {
       throw err;
     }
 
-    return { success: false, message: 'Invalid email or password' };
+    return {
+      success: false,
+      message: 'Invalid email or password',
+      values: {
+        email: formData.get('email')?.toString() || '',
+      },
+    };
   }
 }
 
@@ -58,11 +65,24 @@ export async function signUpUser(prevState: unknown, formData: FormData) {
       password: plainPassword,
     });
 
-    return { success: true, message: 'User registered successfully' };
+    return {
+      success: true,
+      message: 'User registered successfully',
+      values: {},
+    };
   } catch (err) {
     if (isRedirectError(err)) {
       throw err;
     }
-    return { success: false, message: 'User was not registered' };
+    return {
+      success: false,
+      message: formatErrors(err),
+      values: {
+        name: formData.get('name')?.toString() || '',
+        email: formData.get('email')?.toString() || '',
+        password: formData.get('password')?.toString() || '',
+        confirmPassword: formData.get('confirmPassowrd')?.toString() || '',
+      },
+    };
   }
 }

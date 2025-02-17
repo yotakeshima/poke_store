@@ -17,6 +17,7 @@ const SignUpForm = () => {
   const [data, action] = useActionState(signUpUser, {
     success: false,
     message: '',
+    values: signUpDefaultValues,
   });
 
   const searchParams = useSearchParams();
@@ -44,9 +45,8 @@ const SignUpForm = () => {
             id="name"
             name="name"
             type="text"
-            required
             autoComplete="name"
-            defaultValue={signUpDefaultValues.name}
+            defaultValue={data.values.name || ''}
           />
         </div>
         <div>
@@ -54,10 +54,9 @@ const SignUpForm = () => {
           <Input
             id="email"
             name="email"
-            type="email"
-            required
+            type="text"
             autoComplete="email"
-            defaultValue={signUpDefaultValues.email}
+            defaultValue={data.values.email || ''}
           />
         </div>
         <div>

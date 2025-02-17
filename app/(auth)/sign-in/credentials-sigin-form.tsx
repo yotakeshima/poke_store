@@ -12,11 +12,11 @@ import { useSearchParams } from 'next/navigation';
 
 const CredentialsSignInForm = () => {
   // data represents our state from signing in
-  //
 
   const [data, action] = useActionState(signInWithCredentials, {
     success: false,
     message: '',
+    values: {},
   });
 
   const searchParams = useSearchParams();
@@ -45,7 +45,7 @@ const CredentialsSignInForm = () => {
             type="email"
             required
             autoComplete="email"
-            defaultValue={signInDefaultValues.email}
+            defaultValue={data.values.email || ''}
           />
         </div>
         <div>
