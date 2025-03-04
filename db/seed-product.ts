@@ -19,13 +19,19 @@ async function seedProducts() {
 
     console.log('Seeding products...');
     const seller = await prisma.seller.findFirst();
-    const pokemons = await prisma.pokemon.findMany({
+    const umbreon = await prisma.pokemon.findUnique({
       where: {
-        OR: [{ id: 'sv8pt5-161' }, { id: { not: 'sv8pt5-161' } }],
+        id: 'sv8pt5-161',
+      },
+    });
+    const fourPokemon = await prisma.pokemon.findMany({
+      where: {
+        id: { not: 'sv8pt5-161' },
       },
       take: 4,
     });
 
+    const pokemons = umbreon ? [umbreon, ...fourPokemon] : fourPokemon;
     if (!seller || pokemons.length === 0) {
       console.error('No sellers or Pokemon found. Seed them first.');
       return;
