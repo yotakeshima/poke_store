@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
 import Google from 'next-auth/providers/google';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type { NextAuthConfig } from 'next-auth';
@@ -57,13 +59,7 @@ export const config = {
     }),
   ],
   callbacks: {
-    async session({
-      session,
-      user,
-      trigger,
-      token,
-    }: // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any) {
+    async session({ session, user, trigger, token }: any) {
       // Set the user ID from the token
       session.user.id = token.sub;
       session.user.role = token.role;
@@ -77,7 +73,7 @@ export const config = {
       return session;
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async jwt({ token, user, trigger, session }: any) {
       // Assign user fields to token
       if (user) {
@@ -98,7 +94,7 @@ export const config = {
       }
       return token;
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     authorized({ request, auth }: any) {
       // Check for session cart cookie
       if (!request.cookies.get('sessionCartId')) {

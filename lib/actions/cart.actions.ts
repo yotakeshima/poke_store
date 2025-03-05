@@ -1,5 +1,5 @@
 'use server';
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cookies } from 'next/headers';
 import { CartItem } from '@/types';
 import { convertToObject, formatErrors } from '../utils';
