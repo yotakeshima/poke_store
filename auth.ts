@@ -1,13 +1,12 @@
-import NextAuth, { Session, User } from 'next-auth';
+import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from './db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
 import Google from 'next-auth/providers/google';
-import type { NextAuthConfig } from 'next-auth';
-import type { JWT } from 'next-auth/jwt';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import type { NextAuthConfig } from 'next-auth';
 
 export const config = {
   pages: {
