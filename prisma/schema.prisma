@@ -202,7 +202,7 @@ model VerificationToken {
 model Cart {
   id            String   @id @default(uuid())
   userId        String?  @db.Uuid
-  sessionCardID String
+  sessionCartId String
   items         Json[]
   itemsPrice    Decimal  @db.Decimal(12, 2)
   totalPrice    Decimal  @db.Decimal(12, 2)

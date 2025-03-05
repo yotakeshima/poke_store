@@ -6,7 +6,6 @@ import { Plus, X } from 'lucide-react';
 import { CartItem } from '@/types';
 import { toast } from 'sonner';
 import { addItemToCart } from '@/lib/actions/cart.actions';
-import { showCustomToast } from '@/components/ui/toaster';
 
 const AddToCart = ({ item }: { item: CartItem }) => {
   const router = useRouter();
@@ -16,33 +15,41 @@ const AddToCart = ({ item }: { item: CartItem }) => {
     // Handle add cart error
 
     if (!res.success) {
-      //   toast.error(res.message, {
-      //     richColors: true,
-      //     icon: (
-      //       <Button
-      //         className="absolute top-2 right-2 text-white hover:text-gray-300"
-      //         onClick={() => toast.dismiss()}
-      //       >
-      //         <X className="w-4 h-4" />
-      //       </Button>
-      //     ),
-      //   });
-      showCustomToast('A problem occured', 'Please try again', 'error');
+      toast.error(res.message, {
+        richColors: true,
+        actionButtonStyle: {
+          position: 'absolute',
+          top: '0.1rem',
+          right: '0.1rem',
+          width: '31px',
+          height: '31px',
+          border: 'none',
+          backgroundColor: 'transparent',
+          color: '#4b5563',
+        },
+        action: {
+          label: <X />,
+          onClick: () => toast.dismiss(),
+        },
+      });
       return;
     }
 
     // Handle Sucess add to cart
     toast.success(`${item.name} added to cart`, {
-      duration: 10000,
+      duration: 5000,
+      actionButtonStyle: {
+        padding: '18px 24px',
+      },
       action: {
         label: 'View Cart',
         onClick: () => router.push('/cart'),
       },
-      className: 'bg-white text-black border border-gray-500 shadow-lg',
     });
   };
   return (
     <Button className="w-full" type="button" onClick={handleAddToCart}>
+      <Plus />
       Add to Cart
     </Button>
   );
