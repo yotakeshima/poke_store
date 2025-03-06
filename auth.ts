@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
@@ -5,7 +6,6 @@ import { prisma } from './db/prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { compareSync } from 'bcrypt-ts-edge';
 import Google from 'next-auth/providers/google';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import type { NextAuthConfig } from 'next-auth';
@@ -73,7 +73,6 @@ export const config = {
       return session;
     },
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async jwt({ token, user, trigger, session }: any) {
       // Assign user fields to token
       if (user) {
