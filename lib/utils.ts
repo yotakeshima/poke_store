@@ -40,3 +40,15 @@ export function formatErrors(error: any) {
       : JSON.stringify(error.message);
   }
 }
+
+// Rounding function to 2 decmal places
+
+export function round2(value: string | number): number {
+  if (typeof value === 'number') {
+    return Math.round((value + Number.EPSILON) * 100) / 100;
+  } else if (typeof value === 'string') {
+    return Math.round((Number(value) + Number.EPSILON) * 100) / 100;
+  } else {
+    throw new Error('Valuse is not a number or string');
+  }
+}

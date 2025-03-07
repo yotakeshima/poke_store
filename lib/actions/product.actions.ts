@@ -2,7 +2,7 @@
 import { prisma } from '@/db/prisma';
 import { convertToObject } from '../utils';
 import { RECENT_LISTING_LIMIT } from '../constants';
-import { Product } from '@/types';
+import { Product, Pokemon } from '@/types';
 
 // Define reusable relations
 const productIncludeRelations = {
@@ -37,7 +37,10 @@ export async function getLatestProducts() {
 }
 
 // Gets a pokemon from the corresponding productId.
-export async function getPokemon(productId: string) {
+export async function getPokemonById(
+  productId: string | undefined
+): Promise<Pokemon | null> {
+  if (!productId) throw new Error('Not a valid Product Id');
   const product = await prisma.product.findUnique({
     where: { id: productId },
     include: productIncludeRelations,
