@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { cookies } from 'next/headers';
 import { CartItem } from '@/types';
-import { convertToObject, formatErrors, round2 } from '../utils';
+import { convertToObject, formatError, round2 } from '../utils';
 import { auth } from '@/auth';
 import { prisma } from '@/db/prisma';
 import { cartItemSchema, insertCartSchema } from '../validators';
@@ -118,7 +118,7 @@ export async function addItemToCart(data: CartItem) {
   } catch (error) {
     return {
       success: false,
-      message: formatErrors(error),
+      message: formatError(error),
     };
   }
 }
@@ -146,4 +146,59 @@ export async function getMyCart() {
     shippingPrice: cart.shippingPrice.toString(),
     taxPrice: cart.taxPrice.toString(),
   });
+}
+
+// Removes an item from a cart by productId
+export async function removeItemFromCart(productId: string) {
+  try {
+    // Check for cart cookie session
+    const sessionCartId = (await cookies()).get('sessionCartId')?.value;
+    if (!sessionCartId) throw new Error('Cart session not found');
+
+    // Retrieve product
+    const product = await getProductById({ id: productId });
+    if (!product) throw new Error('Product Not Found');
+
+    // Extract Pokemon name
+    const { name } = product.pokemon;
+
+    // Retrieve Cart
+    const cart = await getMyCart();
+    if (!cart) throw new Error('Product Not Found');
+
+    // Remove cart depending on qty
+    // if qty === 1, remove the item
+    // if qty > 1, decrease qty
+    const existingItem = (cart.items as CartItem[]).find(
+      (x) => product.id === x.productId
+    );
+    if (!existingItem) throw new Error('Item Not Found');
+
+    // Check qty for item
+    if (existingItem.qty === 1) {
+      // Remove item from cart
+      cart.items = (cart.items as CartItem[]).filter(
+        (x) => existingItem.productId !== x.productId
+      );
+    } else {
+      // Decrease qty
+      (cart.items as CartItem[]).find((x) => product.id === x.productId)!.qty =
+        existingItem.qty - 1;
+    }
+
+    // Update prisma database
+    await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        items: cart.items as Prisma.CartUpdateitemsInput[],
+        ...calcPrice(cart.items as CartItem[]),
+      },
+    });
+
+    revalidatePath(`/product/${productId}`);
+
+    return { success: true, message: `${name} removed from cart` };
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
 }
