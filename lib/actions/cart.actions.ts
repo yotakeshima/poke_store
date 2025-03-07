@@ -9,6 +9,7 @@ import { cartItemSchema, insertCartSchema } from '../validators';
 import { revalidatePath } from 'next/cache';
 import { getPokemonById, getProductById } from './product.actions';
 import { Unbounded } from 'next/font/google';
+import { Prisma } from '@prisma/client';
 
 // Create a calcPrice function that returns the items, total, shipping and tax prices.
 const calcPrice = (items: CartItem[]) => {
@@ -72,6 +73,46 @@ export async function addItemToCart(data: CartItem) {
       return {
         success: true,
         message: `${pokemon?.name} added to cart`,
+      };
+    } else {
+      //Check if item is already in cart
+      const existingItem = (cart.items as CartItem[]).find(
+        (x) => x.productId === item.productId
+      );
+
+      // If item exists, check the stock and update quantity
+      if (existingItem) {
+        // Check stock
+        if (product.stock < existingItem.qty + 1)
+          throw new Error('Not enough stock');
+
+        // Increase qty of item in cart
+        (cart.items as CartItem[]).find(
+          (x) => x.productId === item.productId
+        )!.qty = existingItem.qty + 1;
+      } else {
+        // If item doesn't exist
+        // Check stock again
+        if (product.stock < 1) throw new Error('Not enough stock');
+
+        // Add item to the cart.items
+        cart.items.push(item);
+      }
+      await prisma.cart.update({
+        where: { id: cart.id },
+        data: {
+          items: cart.items as Prisma.CartUpdateitemsInput[],
+          ...calcPrice(cart.items as CartItem[]),
+        },
+      });
+
+      revalidatePath(`/product/${product.pokemonId}`);
+
+      return {
+        success: true,
+        message: `${pokemon?.name}  ${
+          existingItem ? 'updated in' : 'added to'
+        } cart`,
       };
     }
   } catch (error) {

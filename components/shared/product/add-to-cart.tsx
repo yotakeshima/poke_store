@@ -36,7 +36,7 @@ const AddToCart = ({ item }: { item: CartItem }) => {
     }
 
     // Handle Sucess add to cart
-    toast.success(`${item.name} added to cart`, {
+    toast.success(res.message, {
       duration: 5000,
       actionButtonStyle: {
         padding: '18px 24px',
