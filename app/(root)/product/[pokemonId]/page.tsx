@@ -10,6 +10,7 @@ import ProductDetailsAttacks from '@/components/shared/product/details/product-d
 import ProductDetailsRules from '@/components/shared/product/details/product-details-rules';
 import ProductDetailsAbilities from '@/components/shared/product/details/product-details-abilites';
 import AddToCart from '@/components/shared/product/add-to-cart';
+import { getMyCart } from '@/lib/actions/cart.actions';
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ pokemonId: string }>;
@@ -22,6 +23,8 @@ const ProductDetailsPage = async (props: {
     pokemon,
     pokemon: { set },
   } = product;
+
+  const cart = await getMyCart();
   return (
     <>
       <section className="product-screen">
@@ -92,6 +95,7 @@ const ProductDetailsPage = async (props: {
                   {product.stock > 0 && (
                     <div className="flex-center">
                       <AddToCart
+                        cart={cart}
                         item={{
                           productId: product.id,
                           name: product.pokemon.name,
