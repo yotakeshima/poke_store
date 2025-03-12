@@ -12,32 +12,31 @@ const ProductCard = ({
   product: Product;
   // pokemon: Pokemon;
 }) => {
+  const { pokemon } = product;
   return (
-    <Card className='w-full max-w-sm'>
-      <CardHeader className='p-0 items-center'>
+    <Card className="w-full max-w-sm">
+      <CardHeader className="p-0 items-center">
         <Link href={`/product/${product.pokemonId}`}>
           <Image
-            src={
-              product.pokemon.images?.large || 'https://placehold.co/300x300'
-            }
-            alt={product.pokemon.name}
+            src={pokemon.images?.large || 'https://placehold.co/300x300'}
+            alt={pokemon.name}
             height={300}
             width={300}
             priority={true}
           />
         </Link>
       </CardHeader>
-      <CardContent className='p-4 grid gap-1'>
-        <div className='text-xs'>{product.pokemon.set.name}</div>
-        <Link href={`/product/${product.pokemon.name}`}>
-          <h2 className='text-lg font-bold'>{product.pokemon.name}</h2>
+      <CardContent className="p-4 grid gap-1">
+        <div className="text-xs">{pokemon.set.name}</div>
+        <Link href={`/product/${product.pokemonId}`}>
+          <h2 className="text-lg font-bold">{pokemon.name}</h2>
         </Link>
-        <div className='flex-between gap-2'>
-          <p className='text-sm'>{product.condition} Condition</p>
+        <div className="flex-between gap-2">
+          <p className="text-sm">{product.condition} Condition</p>
           {product.stock > 0 ? (
             <ProductPrice value={Number(product.price)} />
           ) : (
-            <p className='text-destructive'>Out of Stock</p>
+            <p className="text-destructive">Out of Stock</p>
           )}
         </div>
       </CardContent>

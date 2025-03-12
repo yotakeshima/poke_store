@@ -8,11 +8,11 @@
   }
 
   .product-screen {
-    @apply flex justify-center min-h-screen bg-gray-100 overflow-hidden;
+    @apply flex justify-center min-h-screen overflow-hidden;
   }
 
   .product-container {
-    @apply w-full max-w-[90rem] bg-white shadow-lg mt-24 rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 items-start sm:gap-6;
+    @apply w-full max-w-[90rem] bg-gray-50 dark:bg-transparent shadow-lg mt-24 rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 items-start sm:gap-6;
   }
 
   .product-image {

@@ -11,6 +11,7 @@ import ProductDetailsRules from '@/components/shared/product/details/product-det
 import ProductDetailsAbilities from '@/components/shared/product/details/product-details-abilites';
 import AddToCart from '@/components/shared/product/add-to-cart';
 import { getMyCart } from '@/lib/actions/cart.actions';
+import { formatNumberWithDecimal } from '@/lib/utils';
 
 const ProductDetailsPage = async (props: {
   params: Promise<{ pokemonId: string }>;
@@ -99,11 +100,12 @@ const ProductDetailsPage = async (props: {
                         item={{
                           productId: product.id,
                           name: product.pokemon.name,
+                          pokemonId: product.pokemonId,
                           qty: 1,
                           image:
                             product.pokemon.images?.small ||
                             'https://placehold.co/300x300',
-                          price: product.price,
+                          price: formatNumberWithDecimal(Number(product.price)),
                         }}
                       />
                     </div>

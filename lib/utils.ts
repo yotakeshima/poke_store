@@ -52,3 +52,5 @@ export function round2(value: string | number): number {
     throw new Error('Valuse is not a number or string');
   }
 }
+
+// Currency Formatter
