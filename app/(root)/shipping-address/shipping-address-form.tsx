@@ -28,7 +28,8 @@ import {
 } from '@/components/ui/select';
 import { updateUserAddress } from '@/lib/actions/user.actions';
 import { US_STATES } from '@/lib/constants';
-import { showErrorToast } from '@/lib/client-utils';
+// import { showErrorToast } from '@/lib/client-utils';
+import { toast } from 'sonner';
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
       const res = await updateUserAddress(values);
 
       if (!res.success) {
-        showErrorToast(res.message);
+        toast.error(res.message);
         return;
       }
 
