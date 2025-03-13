@@ -5,10 +5,12 @@ import Image from 'next/image';
 import { getProductById } from '@/lib/actions/product.actions';
 import { notFound } from 'next/navigation';
 import ProductPrice from '@/components/shared/product/product-price';
-import ProductDetailsHP from '@/components/shared/product/details/product-details-hp';
-import ProductDetailsAttacks from '@/components/shared/product/details/product-details-attacks';
-import ProductDetailsRules from '@/components/shared/product/details/product-details-rules';
-import ProductDetailsAbilities from '@/components/shared/product/details/product-details-abilites';
+import {
+  ProductDetailsHp,
+  ProductDetailsAttacks,
+  ProductDetailsRules,
+  ProductDetailsAbilities,
+} from '@/components/shared/product/product-details';
 import AddToCart from '@/components/shared/product/add-to-cart';
 import { getMyCart } from '@/lib/actions/cart.actions';
 import { formatNumberWithDecimal } from '@/lib/utils';
@@ -69,7 +71,7 @@ const ProductDetailsPage = async (props: {
             {/* Product Details */}
             <div className="order-2  lg:order-1 align-center flex-col gap-1 p-2">
               <p className="text-gray-700">{pokemon.rarity}</p>
-              <ProductDetailsHP value={pokemon.hp} className="my-4" />
+              <ProductDetailsHp value={pokemon.hp} className="my-4" />
               <ProductDetailsAttacks attacks={pokemon.attacks} />
               <ProductDetailsAbilities abilities={pokemon.abilities} />
               <ProductDetailsRules rules={pokemon.rules} />

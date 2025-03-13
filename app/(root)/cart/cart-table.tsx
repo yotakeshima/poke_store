@@ -1,7 +1,6 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-
 import { useTransition } from 'react';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
 import { ArrowRight, Loader, Minus, Plus } from 'lucide-react';
