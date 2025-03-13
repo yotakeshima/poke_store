@@ -10,19 +10,18 @@ export const metadata: Metadata = {
   title: 'Shipping Address',
 };
 
-const cart = await getMyCart();
+const ShippingAddressPage = async () => {
+  const cart = await getMyCart();
 
-if (!cart || cart.items.length === 0) redirect('/cart');
+  if (!cart || cart.items.length === 0) redirect('/cart');
 
-const session = await auth();
+  const session = await auth();
 
-const userId = session?.user?.id;
+  const userId = session?.user?.id;
 
-if (!userId) throw new Error('UserId not found');
+  if (!userId) throw new Error('UserId not found');
 
-const user = await getUserById(userId);
-
-const ShippingAddressPage = () => {
+  const user = await getUserById(userId);
   return (
     <>
       <ShippingAddressForm address={user.address as ShippingAddress} />

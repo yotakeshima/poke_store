@@ -7,7 +7,7 @@ import { shippingAddressSchema } from '@/lib/validators';
 import { ControllerRenderProps, useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { shippingAddressDefaultValues } from '@/lib/constants';
+import { shippingAddressDefaultValues, US_STATES } from '@/lib/constants';
 import {
   Form,
   FormControl,
@@ -27,9 +27,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { updateUserAddress } from '@/lib/actions/user.actions';
-import { US_STATES } from '@/lib/constants';
-// import { showErrorToast } from '@/lib/client-utils';
-import { toast } from 'sonner';
+import { showErrorToast } from '@/lib/client-utils';
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -48,7 +46,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
       const res = await updateUserAddress(values);
 
       if (!res.success) {
-        toast.error(res.message);
+        showErrorToast(res.message);
         return;
       }
 
