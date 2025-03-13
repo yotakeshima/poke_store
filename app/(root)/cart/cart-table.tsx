@@ -19,6 +19,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { formatCurrency } from '@/lib/utils';
+import { showErrorToast } from '@/lib/client-utils';
 
 const CartTable = ({ cart }: { cart?: Cart }) => {
   const router = useRouter();
@@ -71,7 +72,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                             );
 
                             if (!res.success) {
-                              toast.error(res.message);
+                              showErrorToast(res.message);
                             }
                           })
                         }
@@ -92,7 +93,7 @@ const CartTable = ({ cart }: { cart?: Cart }) => {
                             const res = await addItemToCart(item);
 
                             if (!res.success) {
-                              toast.error(res.message);
+                              showErrorToast(res.message);
                             }
                           })
                         }

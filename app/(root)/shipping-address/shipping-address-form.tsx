@@ -1,11 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 import { useTransition } from 'react';
 import { ShippingAddress } from '@/types';
 import { shippingAddressSchema } from '@/lib/validators';
-import { ControllerRenderProps, useForm } from 'react-hook-form';
+import { ControllerRenderProps, useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { shippingAddressDefaultValues } from '@/lib/constants';
@@ -27,7 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { updateUserAddress } from '@/lib/actions/user.actions';
 import { US_STATES } from '@/lib/constants';
+import { showErrorToast } from '@/lib/client-utils';
 
 const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
   const router = useRouter();
@@ -39,8 +40,19 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
   const [isPending, startTransition] = useTransition();
 
-  const onSubmit = () => {
-    return;
+  const onSubmit: SubmitHandler<z.infer<typeof shippingAddressSchema>> = async (
+    values
+  ) => {
+    startTransition(async () => {
+      const res = await updateUserAddress(values);
+
+      if (!res.success) {
+        showErrorToast(res.message);
+        return;
+      }
+
+      router.push('payment-method');
+    });
   };
 
   return (

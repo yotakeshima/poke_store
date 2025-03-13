@@ -2,30 +2,12 @@
 
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { Plus, X, Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { Cart, CartItem } from '@/types';
 import { toast } from 'sonner';
 import { addItemToCart, removeItemFromCart } from '@/lib/actions/cart.actions';
-// Helper function to show error toast
-const showErrorToast = (message: string) => {
-  toast.error(message, {
-    richColors: true,
-    actionButtonStyle: {
-      position: 'absolute',
-      top: '0.1rem',
-      right: '0.1rem',
-      width: '31px',
-      height: '31px',
-      border: 'none',
-      backgroundColor: 'transparent',
-      color: '#4b5563',
-    },
-    action: {
-      label: <X />,
-      onClick: () => toast.dismiss(),
-    },
-  });
-};
+import { showErrorToast } from '@/lib/client-utils';
+
 const AddToCart = ({ cart, item }: { cart?: Cart; item: CartItem }) => {
   const router = useRouter();
   const handleAddToCart = async () => {
