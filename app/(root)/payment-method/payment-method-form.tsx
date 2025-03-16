@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { paymentMethodSchema } from '@/lib/validators';
 import { useTransition } from 'react';
 import { showErrorToast } from '@/lib/client-utils';
-import CheckoutSteps from '@/components/shared/checkout-steps';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
