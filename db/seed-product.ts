@@ -28,7 +28,7 @@ async function seedProducts() {
       where: {
         id: { not: 'sv8pt5-161' },
       },
-      take: 4,
+      take: 3,
     });
 
     const pokemons = umbreon ? [umbreon, ...fourPokemon] : fourPokemon;
