@@ -124,17 +124,17 @@ model CardMarket {
 }
 
 model Product {
-  id        String      @id @default(uuid()) @db.Uuid
-  pokemonId String      @map("pokemon_id")
-  pokemon   Pokemon     @relation("PokemonProducts", fields: [pokemonId], references: [id], onDelete: Cascade)
-  price     Decimal     @default(0) @db.Decimal(12, 2)
-  stock     Int
-  condition String
-  sellerId  String      @map("seller_id") @db.Uuid
-  seller    Seller      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  createdAt DateTime    @default(now()) @db.Timestamp(6)
-  updatedAt DateTime    @updatedAt
-  OrderItem OrderItem[]
+  id         String      @id @default(uuid()) @db.Uuid
+  pokemonId  String      @map("pokemon_id")
+  pokemon    Pokemon     @relation("PokemonProducts", fields: [pokemonId], references: [id], onDelete: Cascade)
+  price      Decimal     @default(0) @db.Decimal(12, 2)
+  stock      Int
+  condition  String
+  sellerId   String      @map("seller_id") @db.Uuid
+  seller     Seller      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  createdAt  DateTime    @default(now()) @db.Timestamp(6)
+  updatedAt  DateTime    @updatedAt
+  orderItems OrderItem[]
 }
 
 model Seller {
@@ -229,7 +229,7 @@ model Order {
   deliveredAt     DateTime?   @db.Timestamp(6)
   isDelivered     Boolean     @default(false)
   user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  OrderItem       OrderItem[]
+  orderItems      OrderItem[]
 }
 
 model OrderItem {
