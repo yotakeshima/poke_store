@@ -21,12 +21,12 @@ async function seedProducts() {
     const seller = await prisma.seller.findFirst();
     const umbreon = await prisma.pokemon.findUnique({
       where: {
-        id: 'sv8pt5-161',
+        id: 'sv8pt5-51',
       },
     });
     const fourPokemon = await prisma.pokemon.findMany({
       where: {
-        id: { not: 'sv8pt5-161' },
+        id: { not: 'sv8pt5-51' },
       },
       take: 3,
     });

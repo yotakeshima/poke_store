@@ -228,6 +228,7 @@ model Order {
   isPaid          Boolean     @default(false)
   deliveredAt     DateTime?   @db.Timestamp(6)
   isDelivered     Boolean     @default(false)
+  createdAt       DateTime    @default(now()) @db.Timestamp(6)
   user            User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   orderItems      OrderItem[]
 }

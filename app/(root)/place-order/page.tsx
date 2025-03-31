@@ -47,7 +47,7 @@ const PlaceOrderPage = async () => {
         <div className="md:col-span-2 overflow-x-auto space-y-4">
           <Card>
             <CardContent>
-              <h2 className="text-xl pb-4">Shipping Address</h2>
+              <h2 className="text-xl py-4">Shipping Address</h2>
               <p>{userAddress.fullName}</p>
               <p>
                 {userAddress.streetAddress}, {userAddress.city}{' '}
@@ -62,7 +62,7 @@ const PlaceOrderPage = async () => {
           </Card>
           <Card>
             <CardContent>
-              <h2 className="text-xl pb-4">Payment Method</h2>
+              <h2 className="text-xl py-4">Payment Method</h2>
               <p>{user.paymentMethod}</p>
 
               <div className="mt-3">
@@ -74,7 +74,7 @@ const PlaceOrderPage = async () => {
           </Card>
           <Card>
             <CardContent>
-              <h2 className="text-xl pb-4">Order Items</h2>
+              <h2 className="text-xl py-4">Order Items</h2>
               <Table>
                 <TableHeader>
                   <TableRow>
