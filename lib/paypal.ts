@@ -33,3 +33,5 @@ async function generateAccessToken() {
     throw new Error(errorMessage);
   }
 }
+
+export { generateAccessToken };
